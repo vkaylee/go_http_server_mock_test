@@ -112,8 +112,8 @@ func main() {
 	// kill -9 is syscall. SIGKILL but can"t be catch, so don't need add it
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	log.Printf("Shutting down the server due to the %v signal", <-quit)
-	log.Println("Server is going to be shutdown as soon as possible when all handled requests are finished")
 	log.Printf("Current requests on serving: %d", requestC.Count())
+	log.Println("Server is going to be shutdown as soon as possible when all handled requests are finished")
 	gracefullyShutdownTimeout := getEnvInt("GRACEFULLY_SHUTDOWN_TIMEOUT", 0)
 	switch gracefullyShutdownTimeout {
 	case 0:
@@ -126,7 +126,7 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Duration(gracefullyShutdownTimeout)*time.Second)
 		defer cancel()
 
-		log.Printf("Server is going to be shutdown after %d seconds", gracefullyShutdownTimeout)
+		log.Printf("Server is going to be shutdown after %d seconds due to the 'GRACEFULLY_SHUTDOWN_TIMEOUT' is set", gracefullyShutdownTimeout)
 
 		// After reaching the timeout the server is going to be shutdown, all handled requests will be dropped, response will be "(52) Empty reply from server"
 		if err := srv.Shutdown(ctx); err != nil {
