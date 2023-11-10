@@ -19,3 +19,10 @@
 
 # Go workspace file
 go.work
+
+# IDEA
+.idea
+# MYENV
+.env.myenv
+# goreleaser
+dist/
